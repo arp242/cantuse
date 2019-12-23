@@ -1,5 +1,6 @@
 cantuse is like caniuse.com, except that it lists the browsers in which a
-feature *won't* work prominently, instead of the reverse.
+feature *won't* work, instead of listing in which it will. I find this a more
+useful way to look at the data.
 
 Right now this is just a basic commandline utility. A web version will be added
 *soon™*.
@@ -15,15 +16,15 @@ need to fetch the `data.json` yourself:
 Notes:
 
 - Browsers with a usage lower than 0.05% are not displayed individually to
-  reduce noise (changes are you don't care about 0.009% of people reported as
+  reduce noise (chances are you don't care about 0.009% of people reported as
   using IE5.5, or 0.004% usage of Firefox 2). It's still counted in the total
   supported number though.
 
 - Partial support is counted as "supported"; see caniuse.com for more detailed
   support notes.
 
-- Use `-untracked` to consider "untracked" browsers are supported. See the
-  bottom of this page for a list of untracked browsers: https://caniuse.com/usage-table
+- Use `-untracked` to consider "untracked" browsers as supported. See the bottom
+  of this page for a list of untracked browsers: https://caniuse.com/usage-table
 
 - Use `-ignore` to ignore some browsers and always consider them "supported";
   this accepts a comma-separated list of the browser + version as it appears in
