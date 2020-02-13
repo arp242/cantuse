@@ -9,9 +9,12 @@ import (
 	"os"
 	"sort"
 	"strings"
+	"time"
 )
 
 type Data struct {
+	Updated int64 `json:"updated"`
+
 	// {
 	//     "chrome": {
 	//         "browser": "Chrome",
@@ -82,10 +85,9 @@ type Data struct {
 
 func main() {
 	var (
-		help, untracked bool
-		ignore          string
+		help   bool
+		ignore string
 	)
-	flag.BoolVar(&untracked, "untracked", false, `Count "untracked" browsers as supported.`)
 	flag.StringVar(&ignore, "ignore", "", "List of browsers to ignore")
 	flag.BoolVar(&help, "help", false, "Show help")
 	flag.Parse()
@@ -107,12 +109,8 @@ func main() {
 	}
 
 	ut := 100.0 - data.Data["css-sel2"].UsagePercY
-	if !untracked {
-		fmt.Printf("Untracked: %.1f%%; support can never be higher than %.1f%%.\n\n",
-			ut, data.Data["css-sel2"].UsagePercY)
-	} else {
-		fmt.Printf("Untracked: %.1f%%\n\n", ut)
-	}
+	fmt.Printf("Data from %s; untracked browsers: %.1f%%\n\n",
+		time.Unix(data.Updated, 0).Format("2006-01-02"), ut)
 
 	var feats []string
 	for f := range data.Data {
@@ -120,7 +118,28 @@ func main() {
 	}
 	sort.Strings(feats)
 
+	find := flag.Args()
+	if len(find) == 0 {
+		find = nil
+	} else {
+		for i := range find {
+			find[i] = strings.ToLower(find[i])
+		}
+	}
+
 	for _, feat := range feats {
+		if len(find) > 0 {
+			found := false
+			for _, f := range find {
+				if strings.Contains(feat, f) {
+					found = true
+					break
+				}
+			}
+			if !found {
+				continue
+			}
+		}
 		desc := data.Data[feat]
 
 		type w struct {
@@ -154,9 +173,7 @@ func main() {
 		}
 		sort.Slice(wontwork, func(i, j int) bool { return wontwork[i].n > wontwork[j].n })
 
-		if untracked {
-			total += ut
-		}
+		total += ut
 		sup := 100.0 - total - partial
 		if sup <= 0 {
 			fmt.Printf("%q should work for all visitors", feat)

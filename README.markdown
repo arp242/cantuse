@@ -11,24 +11,20 @@ Install it with `go get arp242.net/cantuse`, which will put the binary in
 It uses the same data as caniuse.com (https://github.com/Fyrd/caniuse); you'll
 need to fetch the `data.json` yourself:
 
-    curl https://github.com/Fyrd/caniuse/blob/master/data.json > data.json
+    curl https://raw.githubusercontent.com/Fyrd/caniuse/master/data.json > data.json
 
-Notes:
+Use just `cantuse` to display all data, or `cantuse arrow` to search by feature
+name. Use `-ignore` to ignore some browsers and always consider them
+"supported"; this accepts a comma-separated list of the browser + version as it
+appears in the output; for example:
 
-- Browsers with a usage lower than 0.05% are not displayed individually to
-  reduce noise (chances are you don't care about 0.009% of people reported as
-  using IE5.5, or 0.004% usage of Firefox 2). It's still counted in the total
-  supported number though.
+    $ cantuse -ignore 'IE 11'
+    $ cantuse -ignore 'IE 11,Opera Mini all'
 
-- Partial support is counted as "supported"; see caniuse.com for more detailed
-  support notes.
+Browsers with a usage lower than 0.05% are not displayed individually to reduce
+noise (chances are you don't care about 0.009% of people reported as using
+IE5.5, or 0.004% usage of Firefox 2). It's still counted in the total supported
+number though.
 
-- Use `-untracked` to consider "untracked" browsers as supported. See the bottom
-  of this page for a list of untracked browsers: https://caniuse.com/usage-table
-
-- Use `-ignore` to ignore some browsers and always consider them "supported";
-  this accepts a comma-separated list of the browser + version as it appears in
-  the output; for example:
-
-      $ cantuse -ignore 'IE 11'
-      $ cantuse -ignore 'IE 11,Opera Mini all'
+Partial support is counted as "supported"; see caniuse.com for more detailed
+support notes.
