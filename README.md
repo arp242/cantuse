@@ -5,7 +5,7 @@ useful way to look at the data.
 Right now this is just a basic commandline utility. A web version will be added
 *soon™*.
 
-Install it with `go get arp242.net/cantuse`, which will put the binary in
+Install it with `go install zgo.at/cantuse@latest`, which will put the binary in
 `~/go/bin`.
 
 It uses the same data as caniuse.com (https://github.com/Fyrd/caniuse); you'll

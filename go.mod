@@ -1,3 +1,3 @@
-module arp242.net/cantuse
+module zgo.at/cantuse
 
 go 1.13
